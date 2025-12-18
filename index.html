@@ -92,18 +92,16 @@
             pointer-events: none;
             z-index: 1;
         }
+
+        .ad-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            width: 100%;
+            min-height: 60px;
+        }
     </style>
-    <!-- Ads Integration -->
-    <script type="text/javascript">
-      atOptions = {
-        'key' : '9871707d25714d44e7b578d21cc3ff37',
-        'format' : 'iframe',
-        'height' : 60,
-        'width' : 468,
-        'params' : {}
-      };
-    </script>
-    <script type="text/javascript" src="https://www.highperformanceformat.com/9871707d25714d44e7b578d21cc3ff37/invoke.js"></script>
 <script type="importmap">
 {
   "imports": {
@@ -119,7 +117,37 @@
 </head>
 <body>
     <div class="sparkle-overlay"></div>
+    
+    <!-- Top Ad Placement -->
+    <div class="ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '9871707d25714d44e7b578d21cc3ff37',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/9871707d25714d44e7b578d21cc3ff37/invoke.js"></script>
+    </div>
+
     <div id="root"></div>
+
+    <!-- Bottom Ad Placement -->
+    <div class="ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '9871707d25714d44e7b578d21cc3ff37',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/9871707d25714d44e7b578d21cc3ff37/invoke.js"></script>
+    </div>
+
     <script type="module" src="/index.tsx"></script>
 </body>
 </html>

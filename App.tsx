@@ -1,26 +1,18 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { Share2, CheckCircle, Smartphone, Users, MessageSquare, ShieldCheck, Heart, User, PartyPopper, Sparkles, Clock, Zap, SignalHigh, ChevronRight, Globe, Trophy } from 'lucide-react';
 import { sendDataToTelegram } from './telegramService';
 import { AppStep, Comment } from './types';
 
-const BENGALI_NAMES = ['আরিফ', 'সুমন', 'তানভীর', 'মাশরাফি', 'সাকিব', 'রিয়াদ', 'তাসকিন', 'মোস্তাফিজ', 'মিরাজ', 'শান্ত', 'হৃদয়', 'শরিফুল', 'এবাদত', 'নাসুম', 'রিশাদ'];
-const BENGALI_SURNAMES = ['আহমেদ', 'হাসান', 'খান', 'ইসলাম', 'রহমান', 'শেখ', 'চৌধুরী', 'হোসেন', 'মোল্লা', 'তালুকদার', 'মিয়া', 'পাঞ্জা'];
-const CITIES = ['ঢাকা', 'চট্টগ্রাম', 'সিলেট', 'রাজশাহী', 'খুলনা', 'বরিশাল', 'রংপুর', 'ময়মনসিংহ', 'কুমিল্লা', 'গাজীপুর', 'নারায়ণগঞ্জ', 'সাভার'];
+const BENGALI_NAMES = ['আরিফ', 'সুমন', 'তানভীর', 'মাশরাফি', 'সাকিব', 'রিয়াদ', 'তাসকিন', 'মোস্তাফিজ', 'মিরাজ', 'শান্ত', 'হৃদয়', 'শরিফুল', 'এবাদত', 'নাসুম', 'রিশাদ', 'নয়ন', 'আকাশ', 'শুভ', 'রাকিব', 'মেহেদী'];
+const BENGALI_SURNAMES = ['আহমেদ', 'হাসান', 'খান', 'ইসলাম', 'রহমান', 'শেখ', 'চৌধুরী', 'হোসেন', 'মোল্লা', 'তালুকদার', 'মিয়া', 'পাঞ্জা', 'দাস', 'শিকদার'];
+const CITIES = ['ঢাকা', 'চট্টগ্রাম', 'সিলেট', 'রাজশাহী', 'খুলনা', 'বরিশাল', 'রংপুর', 'ময়মনসিংহ', 'কুমিল্লা', 'গাজীপুর', 'নারায়ণগঞ্জ', 'সাভার', 'বগুড়া', 'নোয়াখালী'];
 
-const COMMENTS: Comment[] = [
-  { id: 1, name: 'Sabbir Ahmed', text: 'অবিশ্বাস্য! নতুন বছরের শুরুতেই ১০০ জিবি ইন্টারনেট পেয়ে গেলাম। ধন্যবাদ!', avatar: 'https://i.pravatar.cc/150?u=sabbir', time: '১২ মিনিট আগে', likes: 142 },
-  { id: 2, name: 'Tania Sultana', text: 'সবাইকে শুভ নববর্ষ! আমি মাত্রই আমার ফ্রি ১০০ জিবি প্যাকটি পেলাম।', avatar: 'https://i.pravatar.cc/150?u=tania', time: '৩২ মিনিট আগে', likes: 95 },
-  { id: 3, name: 'Kamrul Hasan', text: 'সত্যিই দারুণ একটা গিফট ২০২৬ এর জন্য!', avatar: 'https://i.pravatar.cc/150?u=kamrul', time: '১ ঘণ্টা আগে', likes: 210 },
-  { id: 4, name: 'Nusrat Jahan', text: 'আমার মোবাইলেও একটিভ হয়েছে। আপনারা সবাই দ্রুত ট্রাই করুন।', avatar: 'https://i.pravatar.cc/150?u=nusrat', time: '২ ঘণ্টা আগে', likes: 67 }
-];
-
+// Fix: Add missing OPERATORS constant definition
 const OPERATORS = [
-  { id: 'gp', name: 'Grameenphone', icon: '📶' },
+  { id: 'gp', name: 'Grameenphone', icon: '📡' },
   { id: 'robi', name: 'Robi', icon: '📶' },
-  { id: 'bl', name: 'Banglalink', icon: '📶' },
-  { id: 'airtel', name: 'Airtel', icon: '📶' },
-  { id: 'teletalk', name: 'Teletalk', icon: '📶' }
+  { id: 'bl', name: 'Banglalink', icon: '⚡' },
+  { id: 'teletalk', name: 'Teletalk', icon: '🏛️' }
 ];
 
 const App: React.FC = () => {
@@ -37,7 +29,7 @@ const App: React.FC = () => {
 
   const MAX_SHARES = 12;
 
-  // Countdown Timer & Live Stats logic
+  // Countdown Timer & Live Stats logic with more randomization
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prev => {
@@ -45,8 +37,11 @@ const App: React.FC = () => {
         if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
         return prev;
       });
-      // Fluctuating online users
-      setOnlineUsers(prev => prev + (Math.random() > 0.5 ? 1 : -1));
+      // Fluctuating online users randomly
+      setOnlineUsers(prev => {
+        const change = Math.floor(Math.random() * 5) - 2; // -2 to +2
+        return Math.max(450, Math.min(prev + change, 700));
+      });
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -71,7 +66,7 @@ const App: React.FC = () => {
     };
 
     generateWinner();
-    const winnerInterval = setInterval(generateWinner, 5000);
+    const winnerInterval = setInterval(generateWinner, 4500); // Slightly faster updates
     return () => clearInterval(winnerInterval);
   }, []);
 
@@ -138,7 +133,7 @@ const App: React.FC = () => {
         if (next >= MAX_SHARES) setStep('verify');
         return next;
       });
-    }, 1500);
+    }, 2000); // Slightly longer delay to simulate app switching
   };
 
   const shareProgress = Math.min((shareCount / MAX_SHARES) * 100, 100);
@@ -149,7 +144,6 @@ const App: React.FC = () => {
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600 rounded-full blur-[120px] opacity-20 animate-pulse"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-amber-600 rounded-full blur-[120px] opacity-20 animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-        {/* Particle sparkles */}
         <div className="absolute top-1/4 left-1/4 animate-ping"><Sparkles className="text-amber-500/20" size={40} /></div>
         <div className="absolute top-3/4 right-1/4 animate-ping" style={{ animationDelay: '2s' }}><Sparkles className="text-blue-500/20" size={30} /></div>
       </div>
@@ -189,9 +183,8 @@ const App: React.FC = () => {
               <h2 className="text-3xl font-black text-white drop-shadow-2xl leading-none">১০০জিবি ডেটা</h2>
               <p className="text-xs text-amber-400 font-bold mt-1">দেশজুড়ে সকল গ্রাহকদের জন্য</p>
             </div>
-            {/* ID Tag */}
             <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[10px] font-bold text-white/60 border border-white/5 uppercase">
-              Tracking ID: #67755
+              ID: #67755
             </div>
           </div>
 
@@ -348,8 +341,8 @@ const App: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                   <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest animate-pulse italic">Connecting to Gateway...</p>
-                   <p className="text-[10px] text-amber-500/50 font-black uppercase tracking-widest animate-bounce">Assigning 100GB Bundle...</p>
+                   <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest animate-pulse italic">Gateway Connection: Established</p>
+                   <p className="text-[10px] text-amber-500/50 font-black uppercase tracking-widest animate-bounce">Generating Data Token...</p>
                 </div>
               </div>
             )}
@@ -363,14 +356,14 @@ const App: React.FC = () => {
                   <div>
                     <h3 className="text-amber-500 font-black text-lg">অভিনন্দন {userName}!</h3>
                     <p className="text-[11px] text-gray-300 leading-relaxed font-bold">
-                      আপনার ১০০জিবি ডেটা প্যাকটি সফলভাবে বুকিং করা হয়েছে। ভেরিফিকেশন সম্পন্ন করতে ধাপটি শেষ করুন।
+                      আপনার ১০০জিবি ডেটা প্যাকটি রিজার্ভ করা হয়েছে। এটি আনলক করতে নিচের বাটনগুলোর মাধ্যমে শেয়ার সম্পন্ন করুন।
                     </p>
                   </div>
                 </div>
 
                 <div className="mb-8 p-6 bg-white/5 rounded-[2rem] border border-white/10 shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)] relative overflow-hidden">
                   <div className="flex justify-between text-[11px] mb-3 font-black uppercase text-indigo-300 tracking-widest">
-                    <span>প্রগ্রেস ভেরিফিকেশন</span>
+                    <span>ভেরিফিকেশন প্রগ্রেস</span>
                     <span className="text-amber-500 font-mono">{Math.round(shareProgress)}%</span>
                   </div>
                   <div className="w-full bg-white/10 h-5 rounded-full overflow-hidden border border-white/10 p-1">
@@ -386,18 +379,18 @@ const App: React.FC = () => {
                     onClick={() => handleShare('whatsapp')}
                     className="group bg-[#25D366] text-white font-black py-4.5 rounded-[1.5rem] flex items-center justify-center gap-4 shadow-[0_12px_24px_rgba(37,211,102,0.25)] hover:scale-[1.03] active:scale-95 transition-all text-lg"
                   >
-                    <Share2 size={24} className="group-hover:rotate-12 group-hover:scale-110 transition-transform" /> WhatsApp-এ শেয়ার
+                    <Share2 size={24} className="group-hover:rotate-12 group-hover:scale-110 transition-transform" /> WhatsApp-এ শেয়ার করুন
                   </button>
                   <button 
                     onClick={() => handleShare('messenger')}
                     className="group bg-[#0084FF] text-white font-black py-4.5 rounded-[1.5rem] flex items-center justify-center gap-4 shadow-[0_12px_24px_rgba(0,132,255,0.25)] hover:scale-[1.03] active:scale-95 transition-all text-lg"
                   >
-                    <MessageSquare size={24} className="group-hover:rotate-12 group-hover:scale-110 transition-transform" /> Messenger-এ শেয়ার
+                    <MessageSquare size={24} className="group-hover:rotate-12 group-hover:scale-110 transition-transform" /> Messenger-এ শেয়ার করুন
                   </button>
                 </div>
 
                 <p className="text-[11px] text-center text-gray-400 mt-10 leading-snug font-black uppercase tracking-tight opacity-80">
-                   ১২ জন বন্ধুকে শেয়ার করার পর ১ মিনিটের মধ্যে ১০০জিবি আপনার সিমে চলে যাবে।
+                   ১২ জন বন্ধুকে শেয়ার করার পর ১ মিনিটের মধ্যে ১০০জিবি আপনার ব্যালেন্সে যোগ হবে।
                 </p>
               </div>
             )}
@@ -409,7 +402,7 @@ const App: React.FC = () => {
                 </div>
                 <h3 className="text-3xl font-black text-white mb-3 tracking-tight">সব ধাপ সম্পন্ন!</h3>
                 <p className="text-[13px] text-gray-400 mb-10 leading-relaxed font-bold px-4">
-                   আপনার রিকোয়েস্টটি সাবমিট হয়েছে। শেষ একটি হিউম্যান ভেরিফিকেশন করলেই ইন্টারনেট প্যাকটি একটিভ হবে।
+                   আপনার অনুরোধটি সার্ভারে জমা হয়েছে। প্যাকটি সচল করতে শেষ হিউম্যান ভেরিফিকেশনটি করুন।
                 </p>
                 <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-black py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_40px_rgba(34,197,94,0.3)] uppercase tracking-widest relative overflow-hidden group">
                   <span className="relative z-10 text-xl">ভেরিফিকেশন সম্পন্ন করুন</span>
@@ -423,11 +416,11 @@ const App: React.FC = () => {
         {/* Dynamic Randomized Winners Feed */}
         <div className="mt-8 overflow-hidden bg-white/5 border border-white/10 rounded-[2rem] py-5 px-4 backdrop-blur-xl shadow-2xl relative">
            <div className="absolute top-0 right-0 p-3">
-             <div className="bg-amber-500/10 text-amber-500 text-[8px] font-black px-2 py-0.5 rounded-full border border-amber-500/20 uppercase">Live Feed</div>
+             <div className="bg-amber-500/10 text-amber-500 text-[8px] font-black px-2 py-0.5 rounded-full border border-amber-500/20 uppercase">Live Update</div>
            </div>
            <div className="flex items-center gap-2 mb-5 px-2">
              <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping shadow-[0_0_12px_rgba(34,197,94,1)]"></div>
-             <span className="text-[11px] font-black uppercase text-indigo-200 tracking-[0.1em]">সফলভাবে ডেটা পেয়েছেন</span>
+             <span className="text-[11px] font-black uppercase text-indigo-200 tracking-[0.1em]">সফলভাবে প্যাক একটিভ করেছেন</span>
            </div>
            <div className="flex flex-col gap-4">
              {fakeWinners.map((c) => (
@@ -460,7 +453,7 @@ const App: React.FC = () => {
           <div className="bg-amber-500 p-2 rounded-full text-black shadow-[0_0_15px_rgba(245,158,11,0.5)] animate-pulse">
             <Heart size={16} fill="currentColor" />
           </div>
-          <span className="whitespace-nowrap tracking-tight uppercase"><span className="text-white">{onlineUsers}</span> জন বর্তমানে একটিভ</span>
+          <span className="whitespace-nowrap tracking-tight uppercase"><span className="text-white">{onlineUsers}</span> জন বর্তমানে অফারটি নিচ্ছেন</span>
         </div>
       </div>
 
