@@ -1,0 +1,9 @@
+{
+  "name": "Happy New Year 2026 100GB Giveaway",
+  "description": "A promotional landing page for New Year 2026 offering free 100GB internet, featuring multi-step verification and sharing logic with Telegram integration.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
